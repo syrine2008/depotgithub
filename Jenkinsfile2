@@ -15,6 +15,7 @@ pipeline {
         }
         stage('install docker') {
             steps {
+                  sh 'sudo rm -f /etc/docker/daemon.json'
                   sh 'sudo apt purge  docker* -y'
                   sh 'sudo apt autoremove docker.io docker-compose -y'
                   sh 'sudo apt-get update'
@@ -23,8 +24,10 @@ pipeline {
                   sh 'sudo apt update'
                   sh 'sudo chmod 666 /var/run/docker.sock'
                   sh 'sudo usermod -aG  docker $USER'
-                  sh 'sudo systemctl stop docker.service'
-                  sh 'sudo systemctl start docker.service'
+                  sh 'sudo systemctl stop docker'
+                  sh 'sudo systemctl start docker'
+                  sh 'sudo systemctl daemon-reload'
+                  sh 'sudo systemctl restart docker'
             }
         }
         stage('build image docker') {
