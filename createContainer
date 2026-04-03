@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage('Create coteneur'){
+            steps{
+                sh 'sudo docker rm -f myapp-image'
+                sh 'sudo docker run -d --name myapptest --hostname myapptest myapp-image:latest'
+                sh 'sudo docker ps'
+            }
+        }
+
+
+    }
+}
