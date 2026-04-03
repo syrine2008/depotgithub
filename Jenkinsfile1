@@ -15,11 +15,8 @@ pipeline {
         }
         stage('install docker') {
             steps {
+                  sh 'sudo rm -f /etc/docker/daemon.json'
                   sh 'sudo apt purge  docker* -y'
-                  sh 'sudo rm -rf /var/lib/docker'
-                  sh 'sudo rm -rf /var/lib/containerd'
-                  sh 'sudo rm /etc/apt/sources.list.d/docker.sources'
-                  sh 'sudo rm /etc/apt/keyrings/docker.asc'
                   sh 'sudo apt autoremove docker.io docker-compose -y'
                   sh 'sudo apt-get update'
                   sh 'sudo apt-get install apt-transport-https  ca-certificates curl software-properties-common -y'
@@ -27,7 +24,10 @@ pipeline {
                   sh 'sudo apt update'
                   sh 'sudo chmod 666 /var/run/docker.sock'
                   sh 'sudo usermod -aG  docker $USER'
-                  sh 'sudo systemctl restart docker.service'
+                  sh 'sudo systemctl stop docker'
+                  sh 'sudo systemctl start docker'
+                  sh 'sudo systemctl daemon-reload'
+                  sh 'sudo systemctl restart docker'
             }
         }
 
