@@ -3,8 +3,9 @@ pipeline {
     stages {
         stage('Create coteneur'){
             steps{
+                sh 'sudo docker kill myapptest '
                 sh 'sudo docker rm -f myapp-image'
-                sh 'sudo docker run -d --name myapp --hostname myapp myapp-image:latest'
+                sh 'sudo docker run -d --name myapptest --hostname myapptest myapp-image:latest'
                 sh 'sudo docker ps'
             }
         }
