@@ -34,7 +34,7 @@ pipeline {
             steps {
                   script {
                   sh 'sudo docker image rm -f "myapp-image:latest"'                    
-                  sh 'sudo docker build -t "myapp-image" .'
+                  sh 'sudo docker build --no-cache -t "myapp-image" .'
                   sh 'sudo docker image ls'  
                         }
               }
